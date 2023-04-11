@@ -1,0 +1,12 @@
+# docker run -dp 8080:8080 -w /home/node/app --mount type=bind,src="$(pwd)/entweb",target=/home/node/app node bash -c "npm install package.json; node server.js"
+services:
+  app:
+    image: node
+    command: bash -c "npm install package.json; npm run dev"
+    ports:
+      - 8001:8001
+    working_dir: /home/node/app
+    volumes:
+      - type: bind
+        source: .
+        target: /home/node/app
