@@ -22,6 +22,7 @@ function ProjectInfoForm() {
     }
 
     const handleSubmit = e => {
+        e.preventDefault();
         submitButtonClicked = true;
     }
 
