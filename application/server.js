@@ -1,9 +1,27 @@
 const http = require('http');
 const express = require('express');
 const path = require('path');
-//const bootstrap = require('bootstrap');
+const {MongoClient, ServerApiVersion} = require('mongodb');
 
-const PORT_NUMBER = 3000;
+const PORT_NUMBER = 8000;
+
+
+const mongoURI = `mongodb://127.0.0.1:27017`;
+
+const mongoClient = new MongoClient(mongoURI);
+
+async function run() {
+    try {
+        await client.connect();
+
+        await client.db('admin').command({ping: 1});
+        console.log('Pinged your deployment. You successfully connected to MongoDB!');
+    } finally {
+        await client.close();
+    }
+}
+run().catch(console.dir);
+
 
 const app = express();
 
