@@ -12,12 +12,12 @@ const mongoClient = new MongoClient(mongoURI);
 
 async function run() {
     try {
-        await client.connect();
+        await mongoClient.connect();
 
-        await client.db('admin').command({ping: 1});
+        await mongoClient.db('admin').command({ping: 1});
         console.log('Pinged your deployment. You successfully connected to MongoDB!');
     } finally {
-        await client.close();
+        await mongoClient.close();
     }
 }
 run().catch(console.dir);
@@ -25,11 +25,23 @@ run().catch(console.dir);
 
 const app = express();
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 app.use(express.static(path.join(__dirname, '/public/')));
 app.set('view engine', 'pug');
 app.set('views','views');
 
-app.get('/', (req, res) => {
+app.post('/getQuote', (req, res) => {
+    let manHours = req.query.manHours;
+    let hourlyPay = req.query.hourlyPay;
+    let fudgeFactor = Math.random() + 0.5;
+
+    let personCost = parseFloat(manHours) * parseFloat(hourlyPay) * fudgeFactor;
+    Console.log(manHours + " " + hourlyPay);
+    res.send(personCost);
 });
 
-app.listen(PORT_NUMBER);
+app.listen(PORT_NUMBER, () => {
+    console.log(`Node server running on port ${PORT_NUMBER}`);
+});

@@ -1,52 +1,30 @@
-import React, {useState} from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
+//import Layout from "./pages/layout";
+import Home from "./pages/home";
 
-const jsx = (
-<>
-  <h1>Enter details:</h1>
-  <ProjectInfoForm/>
-</>
-);
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient();
 
-function ProjectInfoForm() {
-  const [inputs, setInputs] = useState({});
-
-  const handleChange = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setInputs(values => ({...values, [name]: value}));
-  }
-  
-  const handleSubmit = e => {
-    e.preventDefault();
-    alert(`Man hours: ${inputs.manHours}\nHourly rate: ${inputs.hourly}`); 
-  }
-
+export default function App() {
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Man hours:
-        <input
-          type="text"
-          value={inputs.manHours}
-          onChange={handleChange}></input>
-      </label>
-      <label>
-        Hourly rate:
-        <input
-          type="text"
-          value={inputs.hourly}
-          onChange={handleChange}></input>
-      </label>
-      <input type="submit"></input>
-    </form>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route index element={<Home/>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(jsx);
+root.render(
+  <QueryClientProvider client={queryClient}>
+    <App/>
+  </QueryClientProvider>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
