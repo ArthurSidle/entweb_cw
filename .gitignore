@@ -1,1 +1,4 @@
 application/node_modules
+presentation/node_modules
+credentials.txt
+data/*
